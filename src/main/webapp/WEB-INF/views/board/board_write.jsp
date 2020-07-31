@@ -3,19 +3,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%><!-- 날짜 포맷 변경 -->
 <%@ include file="../include/header.jsp"%>
-	<!-- container -->
-	<div id="container">
-		<!-- location_area -->
-		<div class="location_area member">
-			<div class="box_inner">
-				<h2 class="tit_page">스프링 <span class="in">in</span> 자바</h2>
-				<p class="location">고객센터 <span class="path">/</span> 공지사항</p>
-				<ul class="page_menu clear">
-					<li><a href="javascript:;" class="on">공지사항</a></li>
-				</ul>
-			</div>
-		</div>	
-		<!-- //location_area -->
+<!-- container -->
+<div id="container">
+<%@ include file="../include/container_header.jsp"%>
 
 		<!-- bodytext_area -->
 		<div class="bodytext_area box_inner">
@@ -25,6 +15,14 @@
 					<legend>상담문의 입력 양식</legend>
 					<p class="info_pilsoo pilsoo_item">필수입력</p>
 					<ul class="app_list">
+						<li class="clear">
+							<label for="name_lbl" class="tit_lbl pilsoo_item">카테고리</label>
+								<div class="app_content">
+									<select name="bod_type" class="select_common">
+										<option value="${session_bod_type}">${session_bod_type}</option>
+									</select>
+								</div>
+						</li>
 						<li class="clear">
 							<label for="name_lbl" class="tit_lbl pilsoo_item">제목</label>
 							<div class="app_content"><input name="title" type="text" class="w100p" id="name_lbl" placeholder="제목을 입력해주세요." required /></div>

@@ -77,7 +77,7 @@
 							</div>
 							<div class="form-group">
 								<label>enabled</label> <select name="enabled" class="form-control">
-									<option value="0"<c:out value="${(memberVO.enabled eq 'false')?('seledcted'):('')}"/>>false</option>
+									<option value="0"<c:out value="${(memberVO.enabled eq 'false')?('selected'):('')}"/>>false</option>
 									<option value="1"<c:out value="${(memberVO.enabled eq 'true')?('selected'):('')}"/>>true</option>
 								</select> 
 								<label>level</label> <select name="levels" class="form-control">

@@ -70,7 +70,7 @@
 							<div class="col-sm-12">
 								<div class="form-group">
 									<label>point</label> <input name="point" type="text"
-										class="form-control" placeholder="0">
+										class="form-control" value="0">
 								</div>
 							</div>
 							<div class="form-group">

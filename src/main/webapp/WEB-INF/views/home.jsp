@@ -6,7 +6,7 @@
 
 <!-- Content Wrapper. Contains page content -->
 <div id="container">
-
+ 	<!-- bodytext_area -->
 	<div class="main_rolling_pc">
 		<div class="visualRoll">
 			<ul class="viewImgList">
@@ -92,9 +92,9 @@
 		</h2>
 		<div class="about_box">
 			<ul class="place_list box_inner clear">
-				<c:forEach items="${boardList}" var="boardVO" varStatus="status">
+				<c:forEach items="${boardListGallery}" var="boardVO" varStatus="status">
 					<c:if test="${status.count <= 3 }">
-						<li><a href="/board/view?bno=${boardVO.bno}&page=1"> <!-- 첨부파일이 있을떄 -->
+						<li><a href="/board/view?bno=${boardVO.bno}&page=1&searchBoard=gallery"> <!-- 첨부파일이 있을떄 -->
 								<c:if test="${boardVO.files[0] != null}">
 									<c:set var="extName" value="${fn:split(boardVO.files[0], '.')}" />
 									<c:set var="ext" value="${extName[fn:length(extName)-1]}" />
@@ -133,11 +133,11 @@
 			</p>
 			<div class="bbs_line">
 				<h3>
-					<a href="/board/list">NOTICE</a>
+					<a href="/board/list?searchBoard=notice">NOTICE</a>
 				</h3>
 				<ul class="notice_recent">
-					<c:forEach items="${boardList}" var="boardVO" varStatus="status">
-						<li><a href="/board/view?bno=${boardVO.bno}&page=1">${boardVO.title}</a></li>
+					<c:forEach items="${boardListNotice}" var="boardVO" varStatus="status">
+						<li><a href="/board/view?bno=${boardVO.bno}&page=1&searchBoard=notice">${boardVO.title}</a></li>
 					</c:forEach>
 				</ul>
 			</div>

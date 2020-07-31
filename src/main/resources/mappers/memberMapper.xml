@@ -15,11 +15,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<sql id="sqlWhere">
 		<if test="searchType != null">
 			AND(
-			user_id LIKE CONCAT('%',#{searchKeyword},'%')
+			user_id LIKE '%'||#{searchKeyword}||'%'
 			or
-			user_name LIKE CONCAT('%',#{searchKeyword},'%')
+			user_name LIKE '%'||#{searchKeyword}||'%'
 			or
-			email LIKE CONCAT('%',#{searchKeyword},'%')
+			email LIKE '%'||#{searchKeyword}||'%'
 			)
 		</if>	
 	</sql>
@@ -28,23 +28,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into tbl_member (user_id,user_pw,user_name,
 		email,point,enabled,levels,reg_date)
 		values (#{user_id},#{user_pw},#{user_name},
-		#{email},#{point},#{enabled},#{levels},now())
+		#{email},#{point},#{enabled},#{levels},sysdate)
 	</insert>
 	
 	<select id="selectMember" resultType="org.edu.vo.MemberVO">
-<!-- 'Character Data'.'문자 데이터'를 말하는 것입니다. n이 용어를 
-	좀 더 정확하게 말하면 '(Unparsed) Character Data'.'파싱하지 않는 문자 
-	데이터'라는 뜻입니다. 반대로, 파싱하는 문자 데이터는 'PCDATA'라고 부릅니다. 
-	쿼리를 작성할 때, '<', '>', '&'를 사용해야하는 경우가 생기는데 xml에서 
-	그냥 사용할 경우 태그로 인식하는 경우가 종종있다. 이럴경우 에러를 뱉어내기 때문에 
-	'태그가 아니라 실제 쿼리에 필요한 코드'라고 알려줘야 한다. 
-	그때 사용하는 것이 <!CDATA[...]]> 이다. 한 마디로 XML parser에 의해 
-	해석하지말고 그대로 브라우저에 출력하라는 뜻이다. -->
-		select * from tbl_member
-		where 1=1
+		<![CDATA[
+		SELECT T_Z.*
+		FROM
+		(
+	    SELECT ROWNUM AS RNUM, T_A.*
+	    FROM
+	        (SELECT * FROM TBL_MEMBER 
+	        WHERE 1=1
+		]]>
 		<include refid="sqlWhere"></include>
-		ORDER BY reg_date DESC
-		LIMIT #{startNo}, #{perPageNum}
+		<![CDATA[
+	        ORDER BY REG_DATE DESC) T_A
+	        WHERE ROWNUM <= (#{startNo}/#{perPageNum}+1)*#{perPageNum}
+	        ) T_Z
+		WHERE T_Z.RNUM > (#{startNo}/#{perPageNum})*#{perPageNum}
+		]]>
 	</select>
 	
 	<select id="countUserId" resultType="int">
@@ -64,7 +67,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		point = #{point},
 		enabled = #{enabled},
 		levels = #{levels},
-		update_date = now()
+		update_date = sysdate
 		where user_id = #{user_id}
 	</update>
 	

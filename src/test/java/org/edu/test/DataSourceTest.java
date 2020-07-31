@@ -23,15 +23,15 @@ public class DataSourceTest {
 	@Inject
 	private IF_MemberService memberService;
 	
-	/*	@Inject
-	private DataSource ds;*/
+	@Inject
+	private DataSource ds;
 	
-/*	@Test
+	@Test
 	public void testConnection() throws Exception {
 		Connection con = ds.getConnection();
 		System.out.println("데이터베이스 커넥션 성공 : " + con);
 	}
-	*/
+	
 	
 	@Test
 	public void testInsertMember() throws Exception{
@@ -50,8 +50,8 @@ public class DataSourceTest {
 	@Test
 	public void testUpdateMember() throws Exception{
 		MemberVO memberVO = new MemberVO();
-		memberVO.setUser_id("user02");
-		memberVO.setUser_pw("1234");
+		memberVO.setUser_id("TaeHee");
+		memberVO.setUser_pw("4321");
 		memberVO.setUser_name("이태희");
 		memberVO.setEmail("taehee@test.com");
 		memberVO.setPoint(100);
@@ -62,7 +62,7 @@ public class DataSourceTest {
 	
 	@Test
 	public void testDeleteMember() throws Exception{
-		memberService.deleteMember("user02");
+		memberService.deleteMember("TaeHee");
 	}
 	
 	@Test
