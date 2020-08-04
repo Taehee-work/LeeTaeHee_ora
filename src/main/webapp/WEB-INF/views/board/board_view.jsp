@@ -10,7 +10,7 @@
 	<!-- bodytext_area -->
 	<div class="bodytext_area box_inner">
 		<ul class="bbsview_list">
-			<li class="bbs_title">${boardVO.title }</li>
+			<li class="bbs_title">${boardVO.title}</li>
 			<li class="bbs_category">카테고리<span>
 					<select name="bod_type" class="select_common" disabled>
 						<option value="${session_bod_type}">${session_bod_type}</option>

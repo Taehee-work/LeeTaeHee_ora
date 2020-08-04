@@ -36,8 +36,11 @@
 			<div class="col-3" style="display: inline-block">
 				<select name="searchBoard" class="form-control">
 					<option value="">게시판 선택</option>
-					<option value="notice" <c:out value="${(session_bod_type eq 'notice')?('selected'):('')}"/>>공지사항</option>
-					<option value="gallery"<c:out value="${(session_bod_type eq 'gallery')?('selected'):('')}"/>>갤러리</option>
+					<c:forEach items= "${boardTypeMenu}" var="boardTypeMenu"><!-- items에는 자바 변수/var에는 설정변수 -->
+						<option value="${boardTypeMenu.bod_type}"<c:out value="${(session_bod_type eq boardTypeMenu.bod_type)?('selected'):('')}"/>>${boardTypeMenu.bod_name}</option>
+					</c:forEach>
+					<%-- <option value="notice" <c:out value="${(session_bod_type eq 'notice')?('selected'):('')}"/>>공지사항</option>
+					<option value="gallery"<c:out value="${(session_bod_type eq 'gallery')?('selected'):('')}"/>>갤러리</option> --%>
 				</select>
 			</div>
 			<div class="col-3" style="display: inline-block">
