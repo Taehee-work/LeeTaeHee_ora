@@ -39,15 +39,16 @@
 							<div class="col-sm-12">
 								<!-- text input -->
 								<div class="form-group">
-									<label>user_id</label><input name="user_id" type="text"
+									<label>user_id</label><input required id="user_id" name="user_id" type="text"
 										class="form-control" placeholder="Enter user_id">
 								</div>
+								<span id="msg_validation"></span>
 							</div>
 
 							<div class="col-sm-12">
 								<!-- text input -->
 								<div class="form-group">
-									<label>user_pw</label><input name="user_pw" type="text"
+									<label>user_pw</label><input required name="user_pw" type="text"
 										class="form-control" placeholder="Enter user_pw">
 								</div>
 							</div>
@@ -55,7 +56,7 @@
 							<div class="col-sm-12">
 								<!-- text input -->
 								<div class="form-group">
-									<label>user_name</label><input name="user_name" type="text"
+									<label>user_name</label><input required name="user_name" type="text"
 										class="form-control" placeholder="Enter user_name">
 								</div>
 							</div>
@@ -83,7 +84,7 @@
 									<option value="ROLE_ADMIN">ROLE_ADMIN</option>
 								</select> <br>
 								<div class="buttons">
-									<button type="submit" class="btn btn-warning">Submit</button>
+									<button disabled id="btn_submit" type="submit" class="btn btn-warning">Submit</button>
 									<a href="/admin/member/list?page=${pageVO.page}" class="btn btn-primary">LIST ALL</a>
 								</div>
 							</div>
@@ -100,5 +101,30 @@
 	</div>
 </div>
 <!-- ./Content Wrapper -->
-
+<script>
+$(document).ready(function(){
+	$("#user_id").blur(function(){
+		var user_id = $(this).val();
+		//Ajax 백그라운드로 작동되는 프로그램(비동기 통신에 사용)/ json 데이터 형식
+		$.ajax({
+			type:'get',
+			url:'/admin/member/idcheck?user_id=' + user_id,
+			success:function(result){
+				if(result=='1'){//중복 아이디가 존재할때
+					$("#msg_validation").text("사용할 수 없는 아이디 입니다. 다른 아이디를 입력해주세요");
+					$("#msg_validation").css({"color":"red","font-size":"14px"});
+					$("#btn_submit").attr("disabled",true);
+				}else{//중복아이디가 존재하지 않을때
+					$("#msg_validation").text("사용 가능한 아이디 입니다. ");
+					$("#msg_validation").css({"color":"blue","font-size":"14px"});
+					$("#btn_submit").attr("disabled",false);
+				}
+			},
+			error:function(){
+				alert("중복아이디 체크 Rest API서버가 정상 작동하지 않습니다.");
+			}
+		});
+	});
+});
+</script>
 <%@ include file="../include/footer.jsp"%>
