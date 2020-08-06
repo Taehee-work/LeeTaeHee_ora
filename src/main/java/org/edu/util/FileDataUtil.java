@@ -1,6 +1,8 @@
 package org.edu.util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -9,6 +11,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,6 +63,7 @@ public class FileDataUtil {
 		FileCopyUtils.copy(fileData, target);
 		return files;
 	}
+	
 	/**
 	 * 게시물 상세보기에서 첨부파일 다운로드 메서드 구현(공통)
 	 */
@@ -70,6 +74,27 @@ public class FileDataUtil {
 		response.setContentType("application/download; utf-8");
 		response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
 		return new FileSystemResource(file);
+	}
+	
+	/*
+	 * 게시물 이미지일때 미리보기 메서드 구현(IE, 크롬 공통)
+	 */
+	@RequestMapping(value="/image_preview", method=RequestMethod.GET, produces=MediaType.IMAGE_JPEG_VALUE)
+	@ResponseBody
+	public byte[] imagePreview(@RequestParam("filename") String fileName,HttpServletResponse response)throws IOException{
+		FileInputStream fis = null;//변수 초기화
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();//인스턴스 변수생성
+		fis = new FileInputStream(uploadPath + "/" + fileName);
+		int readCount = 0;
+		byte[] buffer = new byte[1024];
+		byte[] fileArray = null;
+		while((readCount=fis.read(buffer)) != -1) {
+			baos.write(buffer, 0, readCount);
+		}
+		fileArray = baos.toByteArray();
+		fis.close();
+		baos.close();
+		return fileArray;
 	}
 
 }
